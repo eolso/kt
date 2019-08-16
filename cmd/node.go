@@ -20,7 +20,7 @@ var nodeCmd = &cobra.Command{
 		}
 
 		if quietFlag {
-			labrador.ShowProgress(false)
+			labrador.ShowProgress = false
 		}
 
 		pods := labrador.FetchNode(args[0])

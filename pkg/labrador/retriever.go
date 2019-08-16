@@ -16,7 +16,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var showProgress = true
+// ShowProgress : determines whether a progress bar is shown
+var ShowProgress = true
 
 // PodData : struct to store useful pod information
 type PodData struct {
@@ -70,41 +71,6 @@ func (pod *PodData) top() (err error) {
 	}
 
 	cmd.Wait()
-
-	return
-}
-
-// FindAll : finds all pods
-func findAll() (pods []PodData, err error) {
-	args := strings.Fields("get pods -Ao wide --no-headers")
-	cmd := exec.Command("kubectl", args...)
-
-	stdout, _ := cmd.StdoutPipe()
-
-	if err = cmd.Start(); err != nil {
-		return
-	}
-
-	scanner := bufio.NewScanner(stdout)
-	scanner.Split(bufio.ScanLines)
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		lineFields := strings.Fields(line)
-
-		newPod := PodData{
-			podName:   lineFields[1],
-			namespace: lineFields[0],
-			node:      lineFields[7],
-		}
-
-		pods = append(pods, newPod)
-	}
-	cmd.Wait()
-
-	log.WithFields(log.Fields{
-		"function": "findAll()",
-	}).Debug("Finding complete!")
 
 	return
 }
@@ -185,16 +151,46 @@ func PrettyPrint(pods []PodData) {
 	w.Flush()
 }
 
-// ShowProgress : public access to showProgress var
-func ShowProgress(show bool) {
-	showProgress = show
+// FindAll : finds all pods
+func findAll() (pods []PodData, err error) {
+	args := strings.Fields("get pods -Ao wide --no-headers")
+	cmd := exec.Command("kubectl", args...)
+
+	stdout, _ := cmd.StdoutPipe()
+
+	if err = cmd.Start(); err != nil {
+		return
+	}
+
+	scanner := bufio.NewScanner(stdout)
+	scanner.Split(bufio.ScanLines)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		lineFields := strings.Fields(line)
+
+		newPod := PodData{
+			podName:   lineFields[1],
+			namespace: lineFields[0],
+			node:      lineFields[7],
+		}
+
+		pods = append(pods, newPod)
+	}
+	cmd.Wait()
+
+	log.WithFields(log.Fields{
+		"function": "findAll()",
+	}).Debug("Finding complete!")
+
+	return
 }
 
 // topPods : runs kubectl top pod over a slice of pods concurrently
 func topPods(pods []PodData) {
 	bar := pb.StartNew(len(pods))
 
-	if !showProgress {
+	if !ShowProgress {
 		bar.SetWriter(ioutil.Discard)
 	}
 
