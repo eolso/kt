@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"kt/pkg/labrador"
+
+	"github.com/ericolsonnv/kt/pkg/labrador"
 
 	"github.com/spf13/cobra"
 )

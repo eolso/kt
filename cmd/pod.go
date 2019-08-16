@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"kt/pkg/labrador"
+	"github.com/ericolsonnv/kt/pkg/labrador"
 
 	"github.com/spf13/cobra"
 

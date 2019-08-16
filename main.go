@@ -1,7 +1,7 @@
 package main
 
-import "kt/cmd"
+import "github.com/ericolsonnv/kt/cmd"
 
 func main() {
-  cmd.Execute()
+	cmd.Execute()
 }
