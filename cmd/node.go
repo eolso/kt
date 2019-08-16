@@ -8,6 +8,7 @@ import (
 )
 
 var sortFlag string
+var quietFlag bool
 
 // nodeCmd represents the node command
 var nodeCmd = &cobra.Command{
@@ -16,18 +17,25 @@ var nodeCmd = &cobra.Command{
 	Long:  ``,
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if cmd.Flags().Changed("sort") {
-			if err := checkSortFlag(); err != nil {
-				fmt.Println(err.Error())
-				return
-			}
+		if err := checkSortFlag(cmd); err != nil {
+			fmt.Println(err.Error())
+			return
 		}
+
+		if quietFlag {
+			labrador.ShowProgress(false)
+		}
+
 		pods := labrador.FetchNode(args[0])
 		labrador.PrettyPrint(pods)
 	},
 }
 
-func checkSortFlag() (err error) {
+func checkSortFlag(cmd *cobra.Command) (err error) {
+	if !cmd.Flags().Changed("sort") {
+		return nil
+	}
+
 	switch sortFlag {
 	case "name":
 		return nil
@@ -35,14 +43,13 @@ func checkSortFlag() (err error) {
 		return nil
 	case "cpu":
 		return nil
-	case "":
-		return nil
 	default:
 		return fmt.Errorf("Error: sort specified does not match [name|memory|cpu]")
 	}
 }
 
 func init() {
+	nodeCmd.Flags().BoolVarP(&quietFlag, "quiet", "q", false, "disable progress bar")
 	nodeCmd.Flags().StringVarP(&sortFlag, "sort", "s", "", "sort output by [name|memory|cpu]")
 	rootCmd.AddCommand(nodeCmd)
 }
