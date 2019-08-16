@@ -11,7 +11,7 @@ import (
 // allCmd represents the all command
 var allCmd = &cobra.Command{
 	Use:   "all",
-	Short: "runs kubectl top on all pods across all nodes",
+	Short: "top all pods across all namespaces",
 	Long:  ``,
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {

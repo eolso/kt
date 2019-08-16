@@ -13,9 +13,12 @@ var quietFlag bool
 var rootCmd = &cobra.Command{
 	Use:   "kt",
 	Short: "Wrapper script for kubectl top",
-	Long: `Extends the functionality of kubectl top by allowing for entire
-nodes to be topped as well. Can also be ran against single pods an even
-all nodes at once.`,
+	Long: `Extends the functionality of kubectl top.
+Additional features:
+	- top all of the pods on a node
+	- top a pod regardless of current namespace
+	- top all pods across all namespaces
+`,
 }
 
 // Execute : runs errything

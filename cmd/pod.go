@@ -11,7 +11,7 @@ import (
 // podCmd represents the pod command
 var podCmd = &cobra.Command{
 	Use:   "pod [PODNAME]",
-	Short: "runs kubectl top on a specific pod",
+	Short: "top a specific pod",
 	Long:  ``,
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
