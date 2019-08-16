@@ -2,6 +2,7 @@
 
 - [Overview](#overview)
 - [Installing](#installing)
+- [Usage](#usage)
 
 # Overview
 kt is a small utility that extends the functionality of `kubectl top`.
@@ -18,3 +19,16 @@ install the `kt` executable along with the library and its dependencies:
 
     go get -u github.com/ericolsonnv/kt
 
+# Usage
+After installing, the command can be used immediately by using `kt`. The
+main command and all sub-commands have help flags available to help get started.
+```
+Usage:
+  kt [command]
+
+Available Commands:
+  all         top all pods across all namespaces
+  help        Help about any command
+  node        top all pods in a node
+  pod         top a specific pod
+  ```
