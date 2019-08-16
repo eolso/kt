@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"sort"
 	"strings"
 	"sync"
 	"text/tabwriter"
@@ -149,6 +150,22 @@ func PrettyPrint(pods []PodData) {
 	}
 
 	w.Flush()
+}
+
+// SortPods : sorts pods on a given key
+func SortPods(unsortedPods []PodData, key string) (err error) {
+	switch key {
+	case "name":
+		sort.Sort(ByName(unsortedPods))
+	case "memory":
+		sort.Sort(ByMemory(unsortedPods))
+	case "cpu":
+		sort.Sort(ByCPU(unsortedPods))
+	default:
+		err = fmt.Errorf("Error: sort specified does not match [name|memory|cpu]")
+	}
+
+	return
 }
 
 // FindAll : finds all pods
