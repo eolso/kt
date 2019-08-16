@@ -14,7 +14,7 @@ func TestFetchPod(t *testing.T) {
 	goodPod, err := getGoodPod()
 
 	if err != nil {
-		t.Errorf("Failed to get good pod name: %s", err.Error())
+		t.Fatalf("Failed to get good pod name: %s", err.Error())
 	}
 
 	badPod, err := FetchPod(badPodName)
@@ -46,7 +46,7 @@ func TestTop(t *testing.T) {
 
 	goodPod, err := getGoodPod()
 	if err != nil {
-		t.Errorf("Failed to get good pod name: %s", err.Error())
+		t.Fatalf("Failed to get good pod name: %s", err.Error())
 	}
 
 	err = badPod.top()
