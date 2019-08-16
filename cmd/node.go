@@ -20,10 +20,14 @@ var nodeCmd = &cobra.Command{
 		}
 
 		if quietFlag {
-			labrador.ShowProgress(false)
+			labrador.ShowProgress = false
 		}
 
 		pods := labrador.FetchNode(args[0])
+		if sortFlag != "" {
+			labrador.SortPods(pods, sortFlag)
+		}
+
 		labrador.PrettyPrint(pods)
 	},
 }

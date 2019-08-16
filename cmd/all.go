@@ -20,10 +20,15 @@ var allCmd = &cobra.Command{
 		}
 
 		if quietFlag {
-			labrador.ShowProgress(false)
+			labrador.ShowProgress = false
 		}
 
 		pods, _ := labrador.FetchPods()
+
+		if sortFlag != "" {
+			labrador.SortPods(pods, sortFlag)
+		}
+
 		labrador.PrettyPrint(pods)
 	},
 }
