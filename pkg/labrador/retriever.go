@@ -16,6 +16,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var showProgress = true
+
 // PodData : struct to store useful pod information
 type PodData struct {
 	podName   string
@@ -183,15 +185,24 @@ func PrettyPrint(pods []PodData) {
 	w.Flush()
 }
 
+// ShowProgress : public access to showProgress var
+func ShowProgress(show bool) {
+	showProgress = show
+}
+
 // topPods : runs kubectl top pod over a slice of pods concurrently
 func topPods(pods []PodData) {
 	bar := pb.StartNew(len(pods))
 
+	if !showProgress {
+		bar.SetWriter(ioutil.Discard)
+	}
+
 	var wg sync.WaitGroup
 	throttle := make(chan struct{}, 30)
 	for index := range pods {
-		wg.Add(1)
 		throttle <- struct{}{}
+		wg.Add(1)
 		go func(index int, bar *pb.ProgressBar) {
 			pods[index].top()
 			<-throttle
