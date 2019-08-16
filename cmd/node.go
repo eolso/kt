@@ -7,9 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var sortFlag string
-var quietFlag bool
-
 // nodeCmd represents the node command
 var nodeCmd = &cobra.Command{
 	Use:   "node [NODENAME]",
@@ -29,23 +26,6 @@ var nodeCmd = &cobra.Command{
 		pods := labrador.FetchNode(args[0])
 		labrador.PrettyPrint(pods)
 	},
-}
-
-func checkSortFlag(cmd *cobra.Command) (err error) {
-	if !cmd.Flags().Changed("sort") {
-		return nil
-	}
-
-	switch sortFlag {
-	case "name":
-		return nil
-	case "memory":
-		return nil
-	case "cpu":
-		return nil
-	default:
-		return fmt.Errorf("Error: sort specified does not match [name|memory|cpu]")
-	}
 }
 
 func init() {
