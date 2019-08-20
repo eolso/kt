@@ -33,7 +33,7 @@ type PodData struct {
 func (pod PodData) Print() {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 
-	fmt.Fprintf(w, "Name\tCPU\tMemory\n----\t---\t------\n")
+	fmt.Fprintf(w, "Name\tCPU\tMemory\tNode\n----\t---\t------\t----\n")
 	fmt.Fprintf(w, pod.String())
 
 	w.Flush()
