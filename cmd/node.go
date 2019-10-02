@@ -35,6 +35,6 @@ var nodeCmd = &cobra.Command{
 
 func init() {
 	nodeCmd.Flags().BoolVarP(&quietFlag, "quiet", "q", false, "disable progress bar")
-	nodeCmd.Flags().StringVarP(&sortFlag, "sort", "s", "", "sort output by [name|memory|cpu]")
+	nodeCmd.Flags().StringVarP(&sortFlag, "sort", "s", "", "sort output by [name|memory|cpu|namespace]")
 	rootCmd.AddCommand(nodeCmd)
 }
