@@ -41,7 +41,9 @@ func checkSortFlag(cmd *cobra.Command) (err error) {
 		return nil
 	case "cpu":
 		return nil
+	case "namespace":
+		return nil
 	default:
-		return fmt.Errorf("Error: sort specified does not match [name|memory|cpu]")
+		return fmt.Errorf("Error: sort specified does not match [name|memory|cpu|namespace]")
 	}
 }

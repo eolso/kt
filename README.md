@@ -11,7 +11,7 @@ kt adds the following functionality:
 * top all of the pods on a node
 * top a pod regardless of current namespace
 * top all pods across all namespaces
-* sort output by name, cpu usage, or memory usage
+* sort output by name, namespace, cpu usage, or memory usage
 
 # Installing
 Use `go get` to install the latest version of the library. This command will

@@ -20,6 +20,8 @@ import (
 // ShowProgress : determines whether a progress bar is shown
 var ShowProgress = true
 
+const header = "Namespace\tName\tCPU\tMemory\tNode\n---------\t----\t---\t------\t----\n"
+
 // PodData : struct to store useful pod information
 type PodData struct {
 	podName   string
@@ -33,7 +35,7 @@ type PodData struct {
 func (pod PodData) Print() {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 
-	fmt.Fprintf(w, "Name\tCPU\tMemory\tNode\n----\t---\t------\t----\n")
+	fmt.Fprintf(w, header)
 	fmt.Fprintf(w, pod.String())
 
 	w.Flush()
@@ -41,7 +43,7 @@ func (pod PodData) Print() {
 
 // String : returns the PodData in string format
 func (pod PodData) String() string {
-	return fmt.Sprintf("%s\t%s\t%s\t%s\n", pod.podName, pod.cpu, pod.memory, pod.node)
+	return fmt.Sprintf("%s\t%s\t%s\t%s\t%s\n", pod.namespace, pod.podName, pod.cpu, pod.memory, pod.node)
 }
 
 // top : runs kubectl top pod on specified pod
@@ -142,7 +144,7 @@ func FetchNode(node string) (pods []PodData) {
 func PrettyPrint(pods []PodData) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 2, ' ', 0)
 
-	fmt.Fprintf(w, "Name\tCPU\tMemory\tNode\n----\t---\t------\t----\n")
+	fmt.Fprintf(w, header)
 	for _, pod := range pods {
 		if pod.cpu != "" {
 			fmt.Fprintf(w, pod.String())
@@ -161,8 +163,10 @@ func SortPods(unsortedPods []PodData, key string) (err error) {
 		sort.Sort(ByMemory(unsortedPods))
 	case "cpu":
 		sort.Sort(ByCPU(unsortedPods))
+	case "namespace":
+		sort.Sort(ByNamespace(unsortedPods))
 	default:
-		err = fmt.Errorf("Error: sort specified does not match [name|memory|cpu]")
+		err = fmt.Errorf("Error: sort specified does not match [name|memory|cpu|namespace]")
 	}
 
 	return

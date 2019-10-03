@@ -8,6 +8,9 @@ import (
 // ByName : implements sort.Interface for []PodData based on podName
 type ByName []PodData
 
+// ByNamespace : implements sort.Interface for []PodData based on namespace
+type ByNamespace []PodData
+
 // ByCPU : implements sort.Interface for []PodData based on cpu
 type ByCPU []PodData
 
@@ -17,6 +20,10 @@ type ByMemory []PodData
 func (a ByName) Len() int           { return len(a) }
 func (a ByName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a ByName) Less(i, j int) bool { return a[i].podName < a[j].podName }
+
+func (a ByNamespace) Len() int           { return len(a) }
+func (a ByNamespace) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByNamespace) Less(i, j int) bool { return a[i].namespace < a[j].namespace }
 
 func (a ByCPU) Len() int      { return len(a) }
 func (a ByCPU) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
